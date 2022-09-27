@@ -29,7 +29,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userDAO.findByName(username);
+        return userDAO.findByUsername(username);
     }
 
     @Override
