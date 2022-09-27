@@ -13,6 +13,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -40,8 +41,8 @@ public class User implements UserDetails {
     private int age;
 
     @Email(message = "Email must match the pattern example@exam.ex")
-    @Column(name = "email")
-    private String email;
+    @Column(name = "username")
+    private String username;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
@@ -53,22 +54,16 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String surname, int age) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
-
-    public User(String email, String name, String surname, String password, int age) {
-        this.email = email;
+    public User(String username, String name, String surname, String password, int age) {
+        this.username = username;
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.age = age;
     }
 
-    public User(String email, String name, String surname, String password, int age, Collection<Role> roles) {
-        this.email = email;
+    public User(String username, String name, String surname, String password, int age, Collection<Role> roles) {
+        this.username = username;
         this.name = name;
         this.surname = surname;
         this.password = password;
@@ -83,7 +78,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
 
     @Override
@@ -109,15 +104,26 @@ public class User implements UserDetails {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
 
         User user = (User) o;
 
         if (age != user.age) return false;
-        if (!name.equals(user.getName())) return false;
-        if (!surname.equals(user.getSurname())) return false;
-        if (!password.equals(user.getPassword())) return false;
-        return roles.equals(user.getRoles());
+        if (!name.equals(user.name)) return false;
+        if (!Objects.equals(surname, user.surname)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!username.equals(user.username)) return false;
+        return roles.equals(user.roles);
     }
 
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + password.hashCode();
+        result = 31 * result + age;
+        result = 31 * result + username.hashCode();
+        result = 31 * result + roles.hashCode();
+        return result;
+    }
 }

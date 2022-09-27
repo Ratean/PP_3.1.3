@@ -13,7 +13,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -103,7 +102,7 @@ public class UserServiceImp implements UserService {
         if(user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-        return new User(user.getEmail(), user.getName(), user.getSurname(), user.getPassword(), user.getAge(), user.getAuthorities());
+        return new User(user.getUsername(), user.getName(), user.getSurname(), user.getPassword(), user.getAge(), user.getAuthorities());
     }
 
     @PostConstruct

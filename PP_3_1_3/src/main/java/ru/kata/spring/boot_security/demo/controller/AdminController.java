@@ -77,7 +77,7 @@ public class AdminController {
 
     @GetMapping("/logout")
     public String logout() {
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @ModelAttribute
