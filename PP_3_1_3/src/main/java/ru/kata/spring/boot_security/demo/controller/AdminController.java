@@ -60,21 +60,9 @@ public class AdminController {
 
     @PatchMapping("/update")
     public String updateUser(@ModelAttribute("user") User user) {
-        long idd = user.getId();
-        userService.update(user, null);
+        userService.update(user);
         return "redirect:/admin";
     }
-
-//    @PostMapping("/update")
-//    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-//                         @RequestParam(value = "roleId", required = false) String roleName) {
-//        if (bindingResult.hasErrors()) {
-//            return "/update";
-//        }
-//
-//        userService.update(user, roleName);
-//        return "redirect:/admin/users";
-//    }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {

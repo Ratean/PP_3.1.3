@@ -98,13 +98,13 @@
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form th:method="PATCH" th:action="@{/update}" autocomplete="off" th:id="${'editForm' + user.id}">
+                                                                <form th:method="PATCH" th:action="@{/update}" autocomplete="off" th:id="${'editForm' + user.id}" th:object="${user}">
                                                                     <label class="d-block mx-auto pt-1 mt-2 mb-0 text-center fs-5 fw-bold">ID
                                                                         <input name="id" th:value="${user.id}" type="text" class="form-control mx-auto" style="width: 250px;"></label>
                                                                     <label class="form-label d-block mx-auto pt-1 mt-2 mb-0 text-center fs-5 fw-bold">First name
-                                                                        <input name="firstName" th:value="${user.name}" required type="text" class="form-control mx-auto" style="width: 250px;"></label>
+                                                                        <input name="name" th:value="${user.name}" required type="text" class="form-control mx-auto" style="width: 250px;"></label>
                                                                     <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Last name
-                                                                        <input name="lastName" th:value="${user.surname}" required type="text" class="form-control mx-auto" style="width: 250px;"></label>
+                                                                        <input name="surname" th:value="${user.surname}" required type="text" class="form-control mx-auto" style="width: 250px;"></label>
                                                                     <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Age
                                                                         <input name="age" min="0" max="200" th:value="${user.age}" type="number" class="form-control mx-auto" style="width: 250px;"></label>
                                                                     <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Email
@@ -114,10 +114,10 @@
                                                                     <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Role
                                                                         <select name="roles" th:value="${user.roles}" size="2" multiple required class="form-select mx-auto" aria-label="Default select" style="width: 250px;">
                                                                             <th:block th:if="${user.roles.size()<2}">
-                                                                                <option value="2" selected th:each="role : ${user.roles}" th:if="${role.name=='ROLE_ADMIN'}">ADMIN</option>
-                                                                                <option value="2" th:each="role : ${user.roles}" th:if="${role.name!='ROLE_ADMIN'}">ADMIN</option>
-                                                                                <option value="1" selected th:each="role : ${user.roles}" th:if="${role.name=='ROLE_USER'}">USER</option>
-                                                                                <option value="1" th:each="role : ${user.roles}" th:if="${role.name!='ROLE_USER'}">USER</option>
+                                                                                <option value="1" selected th:each="role : ${user.roles}" th:if="${role.name=='ROLE_ADMIN'}">ADMIN</option>
+                                                                                <option value="1" th:each="role : ${user.roles}" th:if="${role.name!='ROLE_ADMIN'}">ADMIN</option>
+                                                                                <option value="2" selected th:each="role : ${user.roles}" th:if="${role.name=='ROLE_USER'}">USER</option>
+                                                                                <option value="2" th:each="role : ${user.roles}" th:if="${role.name!='ROLE_USER'}">USER</option>
                                                                             </th:block>
                                                                             <th:block th:if="${user.roles.size()==2}">
                                                                                 <option value="1" selected>ADMIN</option>

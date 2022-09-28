@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.annotation.PostConstruct;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,22 +45,18 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public void update(User user, String roleName) {
-        User oldUser = getUser(user.getId());
-
-        if (roleName == null) {
-            user.setRoles(oldUser.getRoles());
-        } else {
-            List<Role> roles = getRoleList(roleName);
-            user.setRoles(roles);
+    public void update(User user) {
+        if (userDAO.findByUsername(user.getUsername()) != null &&
+                userDAO.findByUsername(user.getUsername()).getId() != user.getId()) {
+            throw new InvalidParameterException("Cannot save user, such email already exists in the database: "
+                    + user.getUsername());
         }
-
-        if (user.getPassword().equals("*******")) {
-            user.setPassword(oldUser.getPassword());
-            userDAO.save(user);
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(userDAO.findById(user.getId()).get().getPassword());
         } else {
-            save(user, null);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+        userDAO.save(user);
     }
 
     @Override

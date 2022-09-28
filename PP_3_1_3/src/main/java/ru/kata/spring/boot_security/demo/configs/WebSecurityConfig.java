@@ -22,22 +22,16 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
-    private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
-        this.successUserHandler = successUserHandler;
-    }
-
+    public WebSecurityConfig() {}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/adв").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
+                .formLogin()
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .loginPage("/login")
