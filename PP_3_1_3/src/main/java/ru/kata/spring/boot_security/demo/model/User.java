@@ -23,24 +23,20 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 35, message = "Min 2 characters max 35")
+
     @Column(name = "name")
     private String name;
-    @NotEmpty(message = "Surname should not be empty")
-    @Size(min = 2, max = 35, message = "Min 2 characters max 35")
+
     @Column(name = "surname")
     private String surname;
 
-    @NotEmpty(message = "Password should not be empty")
     @Column(name = "password")
     private String password;
 
-    @Min(value = 0, message = "Value not less than 0")
     @Column(name = "age")
     private int age;
 
-    @Email(message = "Email must match the pattern example@exam.ex")
+
     @Column(name = "username")
     private String username;
 

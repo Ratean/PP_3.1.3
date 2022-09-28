@@ -29,8 +29,9 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String index(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("users", userService.getAllUser());
+        model.addAttribute("aUser", user);
+        model.addAttribute("userList", userService.getAllUser());
+        model.addAttribute("newUser", new User());
         return "index";
     }
 
@@ -47,41 +48,38 @@ public class AdminController {
         return "new";
     }
 
-    @PostMapping
-    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                         @RequestParam(value = "roleId", required = false) String roleName) {
-        if (bindingResult.hasErrors()) {
-            return "/new";
-        }
+    @PostMapping("/save")
+    public String create(@ModelAttribute("newUser") User user) {
+//        if (bindingResult.hasErrors()) {
+//            return "/new";
+//        }
 
-        userService.save(user, roleName);
-        return "redirect:/admin/users";
+        userService.save(user, null);
+        return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/update")
-    public String updateUser(Model model, @PathVariable("id") int id) {
-        User user = userService.getUser(id);
-        user.setPassword("*******");
-
-        model.addAttribute("user", user);
-        return "update";
+    @PatchMapping("/update")
+    public String updateUser(@ModelAttribute("user") User user) {
+        long idd = user.getId();
+        userService.update(user, null);
+        return "redirect:/admin";
     }
 
-    @PostMapping("/update")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                         @RequestParam(value = "roleId", required = false) String roleName) {
-        if (bindingResult.hasErrors()) {
-            return "/update";
-        }
-
-        userService.update(user, roleName);
-        return "redirect:/admin/users";
-    }
+//    @PostMapping("/update")
+//    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+//                         @RequestParam(value = "roleId", required = false) String roleName) {
+//        if (bindingResult.hasErrors()) {
+//            return "/update";
+//        }
+//
+//        userService.update(user, roleName);
+//        return "redirect:/admin/users";
+//    }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/logout")
