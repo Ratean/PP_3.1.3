@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").authenticated()
                 .and()
-                .formLogin()
+                .formLogin().successHandler(successUserHandler)
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .loginPage("/login")
