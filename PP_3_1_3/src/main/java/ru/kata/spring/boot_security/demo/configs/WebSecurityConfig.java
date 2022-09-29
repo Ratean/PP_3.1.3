@@ -22,8 +22,12 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
+    private SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig() {}
+    @Autowired
+    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+        this.successUserHandler = successUserHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

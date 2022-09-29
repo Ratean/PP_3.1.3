@@ -13,7 +13,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping
 public class UserController {
 
     private UserService userService;
@@ -23,13 +23,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
-    @PostMapping("/admin")
-    public String redirectToMainPage() {
-        return "redirect:/admin";
+    @PostMapping("/user")
+    public String index(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("user", user);
+        return "index";
     }
 }
